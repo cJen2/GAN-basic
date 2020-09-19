@@ -165,7 +165,7 @@ if __name__ == '__main__':
     batch_size = args.batchsize
     z_size = 200
     epochs = args.epochs
-    Mode = "predict" if args.cuda else "train"
+    Mode = "predict" if args.predict else "train"
 
     """
     Create models
