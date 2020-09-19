@@ -146,10 +146,10 @@ def plotAndSaveVoxel(file_path, voxel):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--pridict", default=False, action="store_true", help="Train or Pridict?")
+    parser.add_argument("--predict", default=False, action="store_true", help="Train or Pridict?")
     parser.add_argument("--epochs", "-e", default=100, action='store', type=int, help='Enter number of epochs, Default=100')
     parser.add_argument("--batchsize", "-bs", default=10, action='store', type=int, help='Enter Batchsize, Default=10')
-    parser.add_argument("--genLR", "-glr", default=0.0025, action='store', type=int, help='Enter Learning rate for Generator, Default=0.0025')
+    parser.add_argument("--genLR", "-glr", default=0.0025, action='store', type=float, help='Enter Learning rate for Generator, Default=0.0025')
     args = parser.parse_args()
     
     """
