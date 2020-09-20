@@ -143,6 +143,9 @@ def plotAndSaveVoxel(file_path, voxel):
     # plt.show()
     plt.savefig(file_path)
 
+if tf.__version__!='1.12.0':
+    print("required tensorflow==1.12.0\n!Found tensorflow=="+tf.__version__)
+    exit(0)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -150,6 +153,9 @@ if __name__ == '__main__':
     parser.add_argument("--epochs", "-e", default=100, action='store', type=int, help='Enter number of epochs, Default=100')
     parser.add_argument("--batchsize", "-bs", default=10, action='store', type=int, help='Enter Batchsize, Default=10')
     parser.add_argument("--genLR", "-glr", default=0.0025, action='store', type=float, help='Enter Learning rate for Generator, Default=0.0025')
+    parser.add_argument("--disLR", "-dlr", default=10e-5, action='store', type=float, help='Enter Learning rate for Discriminator, Default=10e-5')
+    parser.add_argument("--beta", "-b", default=0.5, action='store', type=float, help='Enter value for Beta, Default=0.5')
+    parser.add_argument("--zSize", "-z", default=200, action='store', type=int, help='Enter z size, Default=200')
     args = parser.parse_args()
     
     """
@@ -160,10 +166,10 @@ if __name__ == '__main__':
                "{}/30/train/*.mat".format(object_name)
     gen_learning_rate = 0.025
     gen_learning_rate = args.genLR
-    dis_learning_rate = 10e-5
-    beta = 0.5
+    dis_learning_rate = args.disLR
+    beta = args.beta
     batch_size = args.batchsize
-    z_size = 200
+    z_size = args.zSize
     epochs = args.epochs
     MODE = "predict" if args.predict else "train"
 
@@ -174,9 +180,13 @@ if __name__ == '__main__':
     dis_optimizer = Adam(lr=dis_learning_rate, beta_1=beta)
 
     discriminator = build_discriminator()
+    try: discriminator.load_weights(os.path.join("models", "discriminator_weights.h5"), True)
+    except: pass
     discriminator.compile(loss='binary_crossentropy', optimizer=dis_optimizer)
 
     generator = build_generator()
+    try: generator.load_weights(os.path.join("models", "generator_weights.h5"), True)
+    except: pass
     generator.compile(loss='binary_crossentropy', optimizer=gen_optimizer)
 
     discriminator.trainable = False
