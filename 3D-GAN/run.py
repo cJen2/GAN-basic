@@ -265,6 +265,10 @@ if __name__ == '__main__':
             # Write losses to Tensorboard
             write_log(tensorboard, 'g_loss', np.mean(gen_losses), epoch)
             write_log(tensorboard, 'd_loss', np.mean(dis_losses), epoch)
+            
+            if(epoch%5==0):
+                generator.save_weights(os.path.join("models", "generator_weights.h5"))
+                discriminator.save_weights(os.path.join("models", "discriminator_weights.h5"))
 
         """
         Save models
