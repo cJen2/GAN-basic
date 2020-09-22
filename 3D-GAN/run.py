@@ -181,12 +181,12 @@ if __name__ == '__main__':
 
     discriminator = build_discriminator()
     try: discriminator.load_weights(os.path.join("models", "discriminator_weights.h5"), True)
-    except: pass
+    except: print("Can't Load Discriminator weights")
     discriminator.compile(loss='binary_crossentropy', optimizer=dis_optimizer)
 
     generator = build_generator()
     try: generator.load_weights(os.path.join("models", "generator_weights.h5"), True)
-    except: pass
+    except: print("Can't Load Generator weights")
     generator.compile(loss='binary_crossentropy', optimizer=gen_optimizer)
 
     discriminator.trainable = False
