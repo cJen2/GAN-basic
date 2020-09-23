@@ -254,7 +254,7 @@ if __name__ == '__main__':
                     dis_losses.append(d_loss)
 
                     # Every 10th mini-batch, generate volumes and save them
-                if epoch % 10 == 0:
+                if epoch % 1000 == 0:
                     z_sample2 = np.random.normal(0, 0.33, size=[batch_size, 1, 1, 1, z_size]).astype(np.float32)
                     generated_volumes = generator.predict(z_sample2, verbose=3)
                     for i, generated_volume in enumerate(generated_volumes[:1]):
@@ -267,7 +267,7 @@ if __name__ == '__main__':
                 write_log(tensorboard, 'g_loss', np.mean(gen_losses), epoch)
                 write_log(tensorboard, 'd_loss', np.mean(dis_losses), epoch)
                 
-                if(epoch%5==0):
+                if(epoch%10000==0):
                     generator.save_weights(os.path.join("models", "generator_weights.h5"))
                     discriminator.save_weights(os.path.join("models", "discriminator_weights.h5"))
 
